@@ -1,0 +1,12 @@
+html body {
+	height: 100%;
+	margin: 0px
+}
+
+.custom-sobject {
+	color: #794699;
+}
+
+.standard-sobject {
+	color: #CC6600;
+}
