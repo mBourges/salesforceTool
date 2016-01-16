@@ -1,11 +1,26 @@
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
+import AppBarExampleIconMenu from './test'
+
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import jsforce from 'jsforce';
 import Immutable from 'immutable';
 
-import { AppBar } from 'material-ui';
+import { AppBar, IconMenu, IconButton, MenuItem, MoreVertIcon, NavigationClose } from 'material-ui';
 
 import Sobjects from './components/sobject/sobjects'
+
+class Test extends React.Component {
+	render() {
+		return (<IconButton><NavigationClose /></IconButton>)
+	}
+}
 
 class App extends React.Component {
 	constructor(props) {
@@ -23,7 +38,7 @@ class App extends React.Component {
 			if (err) { return console.error(err); }
 			this.state.conn.describeGlobal((err, res) => {
 			  if (err) { return console.error(err); }
-			  console.log('Num of SObjects : ', res.sobjects.length);
+			  console.log('Num of SObjects : ', res);
 			  
 			  this.setState({
 			  	sobjects: this.state.sobjects.merge(res.sobjects)
@@ -49,26 +64,17 @@ class App extends React.Component {
 
 	render() {
 		console.log('this.state : ', this.state.sobjects);
-		const styles = {
-'zIndex': 1101
-}
+		
 		// const accounts = this.state.accounts.map((account, index) => (<li key={index}>{ account.Name }</li>));
+			// <AppBar title="Salesforce Tools" iconClassNameRight="muidocs-icon-navigation-expand-more" style={ styles }/>
 		return (<div>
-			<AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more" style={ styles }/>
+			<AppBarExampleIconMenu />
 			<Sobjects sobjectList={ this.state.sobjects } />
 		</div>);
-		/*return (<div>
-			<button type="button" onClick={ this.handleClick.bind(this) }>Get Accounts</button>
-			<ul>
-				{ accounts }
-			</ul>
-		</div>)*/
+		
 	}
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
-/*<MenuItem primaryText="Refresh" />
-        <MenuItem primaryText="Help" />
-        <MenuItem primaryText="Sign out" />
-*/
+ 

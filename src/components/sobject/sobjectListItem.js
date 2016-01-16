@@ -3,14 +3,28 @@ import ClassNames from 'classnames';
 
 import { MenuItem } from 'material-ui';
 
-const SobjectsListItem = ({ sobject }) => {
+const SobjectsListItem = ({ sobject, onClick }) => {
 	const styleClass = ClassNames({
 		'custom-sobject': sobject.get('iscustom'),
 		'standard-sobject': !sobject.get('iscustom')
-	})
+	});
 
-	return (<MenuItem className={ styleClass }>
-		{ sobject.get('name') } - { sobject.get('label') }
+	const styles = {
+		lineHeight: '1.5em'
+	}
+
+	const labelStyles = {
+		color: 'lightgrey',
+		paddingLeft: '20px'
+	}
+
+	const handleClick = () => {
+		onClick(sobject);
+	}
+
+	return (<MenuItem className={ styleClass } style={ styles } onClick={ handleClick }>
+		{ sobject.get('name') }<br />
+		<small style={ labelStyles }>{ sobject.get('label') }</small>
 	</MenuItem>);
 }
 

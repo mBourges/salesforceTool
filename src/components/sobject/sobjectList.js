@@ -3,9 +3,9 @@ import SobjectListItem from './sobjectListItem';
 
 import { MenuItem } from 'material-ui';
 
-const SobjectsList = ({ sobjects }) => {
+const SobjectsList = ({ sobjects, onClick }) => {
 	const listItem = sobjects.map((sobject, index) => {
-		return (<SobjectListItem key={ index } sobject={ sobject } />);
+		return (<SobjectListItem key={ index } sobject={ sobject } onClick={ onClick } />);
 	});
 
 	return (<div>{ listItem }</div>);

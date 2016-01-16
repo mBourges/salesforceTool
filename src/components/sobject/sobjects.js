@@ -1,9 +1,10 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-import { AppBar, LeftNav, MenuItem } from 'material-ui';
+import { AppBar, LeftNav, MenuItem, TextField, FlatButton } from 'material-ui';
 
 import SobjectList from './sobjectList';
+import SobjectDetails from './sobjectDetails'
 
 class Sobjects extends React.Component { 
 	constructor(props){
@@ -11,7 +12,8 @@ class Sobjects extends React.Component {
 
 		this.state = {
 			showStandard: false,
-			searchSobjectText: ''
+			searchSobjectText: '',
+			selectedSobject: Immutable.Map({})
 		};
 	}
 
@@ -27,24 +29,40 @@ class Sobjects extends React.Component {
 		})
 	}
 
+	handleClick(sobject) {
+		console.log('sobject', sobject);
+		this.setState({
+			selectedSobject: sobject
+		})
+	}
+
 	render() {
-		const sobjectList = this.props.sobjectList.filter(sobject => sobject.get('custom') || this.state.showStandard).filter(sobject => (sobject.get('name').indexOf(this.state.searchSobjectText) > -1 || sobject.get('label').indexOf(this.state.searchSobjectText) > -1 ) );
-console.log('list', this.props.sobjectList, sobjectList)
+		const sobjectList = this.props.sobjectList.filter(sobject => sobject.get('custom') || this.state.showStandard).filter(sobject => (sobject.get('name').toLowerCase().indexOf(this.state.searchSobjectText.toLowerCase()) > -1 || sobject.get('label').toLowerCase().indexOf(this.state.searchSobjectText.toLowerCase()) > -1 ) );
+
 const styles = {
-'zIndex': 1100
+'zIndex': 1100,
+width: '30%'
 }
 		return(<div>
 
-<LeftNav open={this.state.open} docked={true} open={true}  style={ styles }>
+<LeftNav className="left-nav" open={this.state.open} docked={true} open={true}  style={ styles }>
           <AppBar title="AppBar"/>
-          <input type="text" onChange={ this.handleSearchSobjectText.bind(this) } placeholder="Search" />
-			<a href="#" onClick={ this.handleToggleStandard.bind(this) }>show Standard</a>
-			<SobjectList sobjects={ sobjectList } />
+           <TextField
+	type="text"
+  hintText=""
+  floatingLabelText="Search"
+  onChange={ this.handleSearchSobjectText.bind(this) } />
+  <FlatButton label={ this.state.showStandard ? 'Hide Standard' : 'Show Standard'} secondary={true} onClick={ this.handleToggleStandard.bind(this) } />
+			<SobjectList sobjects={ sobjectList } onClick={ this.handleClick.bind(this) } />
         </LeftNav>
-			
+        <div className="content-block">
+			<SobjectDetails sobject={ this.state.selectedSobject} />
+		</div>
 		</div>);
 	}
 }
+
+
 
 
 
